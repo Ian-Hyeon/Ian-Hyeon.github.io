@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>이메일 및 전화번호 수집</title>
+</head>
+<body>
+
+  <h2>이메일 및 전화번호 입력</h2>
+  <form id="infoForm">
+    <label for="email">이메일 (입력하세요):</label>
+    <input type="email" id="email" placeholder="example@domain.com" required>
+    <br><br>
+    
+    <label for="phone">전화번호 (입력하세요):</label>
+    <input type="tel" id="phone" pattern="[0-9]{3}-[0-9]{3,4}-[0-9]{4}" placeholder="010-1234-5678" required>
+    <br><br>
+    
+    <button type="submit">제출</button>
+  </form>
+
+  <h3>저장된 정보</h3>
+  <div id="savedInfo"></div>
+
+  <script>
+    const form = document.getElementById('infoForm');
+    const savedInfoDiv = document.getElementById('savedInfo');
+
+    // 로컬 저장소에서 정보를 가져와 화면에 표시
+    function displaySavedInfo() {
+      const savedEmail = localStorage.getItem('email');
+      const savedPhone = localStorage.getItem('phone');
+
+      if (savedEmail && savedPhone) {
+        savedInfoDiv.innerHTML = `<p>저장된 이메일: ${savedEmail}</p><p>저장된 전화번호: ${savedPhone}</p>`;
+      } else {
+        savedInfoDiv.innerHTML = "<p>저장된 정보가 없습니다.</p>";
+      }
+    }
+
+    // 폼 제출 시 로컬 저장소에 정보 저장
+    form.addEventListener('submit', function(event) {
+      event.preventDefault(); // 폼의 기본 제출 방지
+
+      const email = document.getElementById('email').value;
+      const phone = document.getElementById('phone').value;
+
+      localStorage.setItem('email', email);
+      localStorage.setItem('phone', phone);
+
+      displaySavedInfo(); // 저장된 정보 갱신
+
+      alert("정보가 저장되었습니다!");
+    });
+
+    // 페이지 로드 시 저장된 정보 표시
+    displaySavedInfo();
+  </script>
+
+</body>
+</html>
